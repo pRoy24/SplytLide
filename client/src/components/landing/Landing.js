@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import LoginView from './LoginView';
 import HomeView from './HomeView';
 import { TopNav } from '../nav/TopNav';
 
 export function Landing(props) {
-  const { isLoggedIn } = props;  
+  
+  const { isConnected, connector, createNewInvoice, invoiceMessages } = props;  
   let defaultView = <span />;
-  if (isLoggedIn) {
-    defaultView = <LoginView />;
-  } else {
-    defaultView = <HomeView />;
+
+  const activateKey = async () => {   
+
   }
+
+  if (!isConnected) {
+    defaultView = <LoginView activateKey={ activateKey }/>;
+  } else {
+    defaultView = <HomeView connector={ connector } createNewInvoice={ createNewInvoice }
+    invoiceMessages={invoiceMessages}/>;
+  }
+  const self = this;
   return (
     <div>
       <TopNav/>
