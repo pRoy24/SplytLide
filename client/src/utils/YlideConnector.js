@@ -143,7 +143,7 @@ export class YlideConnector {
 
   async createKeyStore() {
     const self = this;
-    const passwordStr = process.env.password;
+    const passwordStr = 'abcd';
     const keyPairResponse = await this.keystore.create(
       'For your second key',
       'evm', // blockchain group
@@ -160,17 +160,12 @@ export class YlideConnector {
     console.log(keyStoreRemote);
   }
 
-  async sendInvoiceMessage(content) {
-    const msgId = await this.ylide.sendMessage({
-      wallet: this.wallet,
-      sender: this.account,
-      content,
-      recipients: ['0x15a33D60283e3D20751D6740162D1212c1ad2a2d'],
-    });
-  }
+
 
   async readInvoiceMessages() {
      const blockchain = "POLYGON";
+     const network = 3;
+
      const account = this.account;
     const reader =  this.reader;
     this.readingSession = new SourceReadingSession();
@@ -217,10 +212,14 @@ export class YlideConnector {
       console.log(e);
     }
     const self = this;
-    const messages = await this.currentList.readUntil(10);
+    const messages = await this.currentList.readUntil(20);
+
+
     const messageListResponse = messages.map(function(messageEncrypted) {
       const msgId = messageEncrypted.msg.msgId;
       return reader.retrieveMessageContentByMsgId(msgId).then(function(dataRes) {
+
+         
         return self.ylide.decryptMessageContent(self.keypair, messageEncrypted.msg, dataRes).then(function(decoded) {
           console.log(decoded);
           if (decoded.subject.startsWith("SPLYTLIDE_INV_")) {
@@ -228,18 +227,19 @@ export class YlideConnector {
           } else {
             return null;
           }
+        }).catch(function(err) {
+
         })
       })
     });
     const dataRes = (await Promise.all(messageListResponse)).filter(Boolean);
-    console.log(dataRes);
+
     return dataRes;
   }
 
 
   async sendNewMessage(payload) {
-    console.log(payload);
-    console.log("TT");
+
     const network = 3;
     const dataMessage = JSON.stringify(payload);
     const subject = `SPLYTLIDE_INV_REQ_${this.account.address}`;

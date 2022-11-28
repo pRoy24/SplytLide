@@ -12,14 +12,13 @@ export function Landing(props) {
   if (!isConnected) {
     defaultView = <LoginView />;
   } else {
+    console.log(connector);
     const connectedAddress = connector.account.address;
     console.log(connectedAddress);
     const positiveBalances = [];
     const negativeBalances = [];
     invoiceMessages.forEach(function(messageItem) {
       const messageJson = JSON.parse(messageItem.content);
-       const msgSubject = messageJson.subject;
-       console.log(msgSubject); 
       if (messageJson.subject && connectedAddress && messageJson.subject.toString().toLowerCase() === connectedAddress.toLowerCase()) {
         positiveBalances.push(messageJson);
       } else {
@@ -30,7 +29,6 @@ export function Landing(props) {
     defaultView = <HomeView connector={ connector } createNewInvoice={ createNewInvoice }
     positiveBalances={positiveBalances} negativeBalances={negativeBalances}/>;
   }
-  const self = this;
   return (
     <div>
       <TopNav/>

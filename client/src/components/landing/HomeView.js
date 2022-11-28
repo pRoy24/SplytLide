@@ -12,6 +12,9 @@ export default function HomeView(props) {
   const showSendInvoiceDialog = () => {
     setShowInvoiceDialogVisible(true);
   } 
+  const hideShowInvoiceDialogVisible = () => {
+    setShowInvoiceDialogVisible(false);
+  }
   let totalPositive = 0;
   let totalNegative = 0;
   positiveBalances.forEach(function(positiveBal) {
@@ -25,7 +28,7 @@ export default function HomeView(props) {
       <div>
        <ActionRow showSendInvoiceDialog={showSendInvoiceDialog}/> 
        <BalanceRow totalPositive={totalPositive} totalNegative={totalNegative}/> 
-       <AddExpenseDialog createNewInvoice={createNewInvoice} show={showInvoiceDialogVisible}/>
+       <AddExpenseDialog createNewInvoice={createNewInvoice} show={showInvoiceDialogVisible} hide={hideShowInvoiceDialogVisible}/>
        </div>
        <div className="bg-neutral-100">
          <div className="grid grid-cols-2 gap-1">
