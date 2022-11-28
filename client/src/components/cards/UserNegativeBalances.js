@@ -8,9 +8,8 @@ export function UserNegativeBalances(props) {
   if (invoiceMessages.length === 0) {
     return <span />;
   }
-  console.log(invoiceMessages);
-  const invoiceMessageDisplay = invoiceMessages.map(function(item, idx) {
-    const itemDataJson = JSON.parse(item.content);
+  const invoiceMessageDisplay = invoiceMessages.map(function(itemDataJson, idx) {
+
     return (
       <div>
         <div className="text-left pl-4">
@@ -18,7 +17,7 @@ export function UserNegativeBalances(props) {
           <div className="inline-block ml-2 mr-2">
           <div>
            <div className="text-sm">
-           From <AddressBlock address={itemDataJson.subject}/> 
+           From <AddressBlock address={itemDataJson.subject[0]}/> 
            </div>
            <div className="text-sm">
             Amount due {itemDataJson.amount} $ 

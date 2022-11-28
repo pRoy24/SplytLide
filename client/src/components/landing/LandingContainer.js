@@ -30,7 +30,7 @@ export default function LandingContainer() {
     const numSharers = dataPayload.addressList.length + 1;
     const share = parseInt(dataPayload.amount) / numSharers;
     const payload = {
-      "subject": dataPayload.addressList,
+      "subject": dataPayload.addressList[0],
       "body": dataPayload.description,
       "amount": dataPayload.amount,
       "sharers": numSharers,

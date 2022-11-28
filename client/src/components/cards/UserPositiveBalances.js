@@ -1,57 +1,39 @@
 import React from "react";
+import AddressBlock from './AddressBlock';
 
-export function UserPositiveBalances() {
-  const userOwingList = [
-    {
-      name: 'Rajamaesh',
-      address: '0x01112342333',
-      chain: '1',
-      amount: '12.34',
-      token: 'usdc',
-      usdValue: '12.34',
-    },
-    {
-      name: 'Steve',
-      address: '0x01112342333',
-      chain: '1',
-      amount: '12.34',
-      token: 'usdc',
-      usdValue: '12.34',
-    },
-    {
-      name: 'Sally',
-      address: '0x01112342333',
-      chain: '1',
-      amount: '12.34',
-      token: 'usdc',
-      usdValue: '12.34',
-    },      
-  ]
+export function UserPositiveBalances(props) {
+  const { invoiceMessages } = props;
 
-  const userOwedListDisplay = userOwingList.map(function(item, idx) {
+  const invoiceMessageDisplay = invoiceMessages.map(function(itemDataJson, idx) {
+
     return (
-    <div>
-       <div className="text-left pl-4">
+      <div>
+        <div className="text-left pl-4">
           <div className="avatar rounded-full w-8 h-8 bg-green-500 inline-block"></div>
           <div className="inline-block ml-2 mr-2">
-            <div>
-            {item.name}
-            </div>
-            <div>
-              You owe {item.usdValue}
-            </div>
+          <div>
+           <div className="text-sm">
+           From <AddressBlock address={itemDataJson.subject}/> 
+           </div>
+           <div className="text-sm">
+            Amount due {itemDataJson.share} $ 
+           </div>
+           <div>
+           {itemDataJson.body}
+           </div>
           </div>
-       </div>
+          </div>
+        </div>
     </div>
     )
-  });  
+  }); 
   return (
     <div>
       <div className="pt-2 font-lg font-bold text-right pr-6 pl-4 text-slate-900">
         YOU ARE OWED
       </div>
       <div>
-        {userOwedListDisplay}
+        {invoiceMessageDisplay}
       </div>
     </div>
   )

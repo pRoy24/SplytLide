@@ -8,15 +8,27 @@ export function Landing(props) {
   const { isConnected, connector, createNewInvoice, invoiceMessages } = props;  
   let defaultView = <span />;
 
-  const activateKey = async () => {   
-
-  }
 
   if (!isConnected) {
-    defaultView = <LoginView activateKey={ activateKey }/>;
+    defaultView = <LoginView />;
   } else {
+    const connectedAddress = connector.account.address;
+    console.log(connectedAddress);
+    const positiveBalances = [];
+    const negativeBalances = [];
+    invoiceMessages.forEach(function(messageItem) {
+      const messageJson = JSON.parse(messageItem.content);
+       const msgSubject = messageJson.subject;
+       console.log(msgSubject); 
+      if (messageJson.subject && connectedAddress && messageJson.subject.toString().toLowerCase() === connectedAddress.toLowerCase()) {
+        positiveBalances.push(messageJson);
+      } else {
+        negativeBalances.push(messageJson);
+      }
+    });
+   
     defaultView = <HomeView connector={ connector } createNewInvoice={ createNewInvoice }
-    invoiceMessages={invoiceMessages}/>;
+    positiveBalances={positiveBalances} negativeBalances={negativeBalances}/>;
   }
   const self = this;
   return (

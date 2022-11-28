@@ -183,6 +183,7 @@ export class YlideConnector {
 					subject,
 				);
 		};
+
     const accountAddress = this.account.address.toLowerCase();
     const addressPadded = "000000000000000000000000" + accountAddress.split("0x")[1];
     const ls = this.readingSession.listSource(
@@ -194,12 +195,16 @@ export class YlideConnector {
       },
       reader,
     );
+
+
+		const sentAddress = Ylide.getSentAddress(this.wallet.addressToUint256(this.account.address));
+
     const lsSent = this.readingSession.listSource(
       {
         blockchain,
         type: BlockchainSourceType.DIRECT,
-        recipient: null,
-        sender: addressPadded,
+        recipient: sentAddress,
+        sender: null,
       },
       reader,
     );
